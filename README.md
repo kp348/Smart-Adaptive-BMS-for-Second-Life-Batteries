@@ -56,4 +56,7 @@ Li-ion batteries appliactions
       const char* ssid = "YOUR_WIFI_NAME";
       const char* password = "YOUR_WIFI_PASSWORD";
   9.  Once ESP32 connects to Wi-Fi, it prints its IP and open that IP in ypur browser.
-  10. The real time data from ESP32 will be seen in the web page linked to repo(index.html). 
+  10. The real time data from ESP32 will be seen in the web page linked to repo(index.html).
+  11. For the representation of web page. Please visit the following link:
+      https://kp348.github.io/Smart-Adaptive-BMS-for-Second-Life-Batteries/
+
