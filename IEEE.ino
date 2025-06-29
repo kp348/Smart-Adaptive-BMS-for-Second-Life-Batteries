@@ -8,7 +8,13 @@
 // Pins
 #define TEMP_SENSOR_PIN 34
 #define MOSFET_PIN 25
+#define I2C_SDA 21           
+#define I2C_SCL 22           
 #define SD_CS 5
+#define SD_MOSI 23
+#define SD_MISO 19
+#define SD_CLK 18
+
 
 const char* ssid = "YOUR_SSID";
 const char* password = "YOUR_PASSWORD";
