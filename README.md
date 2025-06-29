@@ -1,5 +1,9 @@
 IEEE Hack -Smart Adaptive BMS for Second-Life Batteries
 
+This project is a Smart Adaptive Battery Management System which uses the Esp32. A BMS is system that checks the battery’s behaviour and ensures it operates safely and efficiently.
+Our system learns from each battery's behavior and adapts its safety thresholds and charging logic. We use simple sensors to monitor voltage temp and current but also show tracking degradation with real time updates to ensure safer use of aged or recycled battery cells.
+For example, it can be used it for second life Li-ion batteries.
+It can also be used as a testing method for devices that are powered by li-ion batteries. 
 This repository contains the schematic for the **Battery Monitoring System (BMS)** designed using **KiCad** as part of the IEEE Hack project.
 Our idea is To monitor the real-time status of a battery (voltage, current, temperature, state of charge) and protect it from overcharging, 
 deep discharging, overheating, or short circuits — thereby extending its life and ensuring safety.
