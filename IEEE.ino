@@ -5,16 +5,17 @@
 #include <SD.h>
 #include <WebServer.h>
 
-// Pins
-#define TEMP_SENSOR_PIN 34
-#define MOSFET_PIN 25
-#define I2C_SDA 21           
-#define I2C_SCL 22           
-#define SD_CS 5
-#define SD_MOSI 23
-#define SD_MISO 19
-#define SD_CLK 18
 
+#define TEMP_SENSOR_PIN 34
+#define MOSFET_PIN 26
+
+#define I2C_SDA 21
+#define I2C_SCL 22
+
+#define SD_CS 5
+#define SD_CLK 18
+#define SD_MISO 19
+#define SD_MOSI 23
 
 const char* ssid = "YOUR_SSID";
 const char* password = "YOUR_PASSWORD";
@@ -26,7 +27,7 @@ WebServer server(80);
 float batteryVoltage = 0.0, current_mA = 0.0, temperatureC = 0.0;
 String chargeStatus = "Unknown";
 
-// 🛠 Forward declaration to fix scope error
+// 🛠 Forward declaration
 void handleData();
 
 void setup() {
@@ -34,15 +35,16 @@ void setup() {
 
   pinMode(TEMP_SENSOR_PIN, INPUT);
   pinMode(MOSFET_PIN, OUTPUT);
-  pinMode(CHRG_PIN, INPUT_PULLUP);
-  pinMode(STDBY_PIN, INPUT_PULLUP);
   digitalWrite(MOSFET_PIN, LOW);
+
+  Wire.begin(I2C_SDA, I2C_SCL);
 
   if (!ina219.begin()) {
     Serial.println("INA219 not found!");
     while (1);
   }
 
+  SPI.begin(SD_CLK, SD_MISO, SD_MOSI, SD_CS);
   if (!SD.begin(SD_CS)) {
     Serial.println("SD card failed");
   }
@@ -55,7 +57,7 @@ void setup() {
   Serial.println("\nConnected! IP: " + WiFi.localIP().toString());
 
   server.on("/", handleRoot);
-  server.on("/data", handleData);  // ✅ Now works!
+  server.on("/data", handleData);
   server.begin();
 }
 
@@ -73,12 +75,13 @@ void readSensors() {
   int analogValue = analogRead(TEMP_SENSOR_PIN);
   temperatureC = (analogValue / 4095.0) * 3.3 * 100.0;
 
-  bool chrg = digitalRead(CHRG_PIN) == LOW;
-  bool stdby = digitalRead(STDBY_PIN) == LOW;
-
-  if (chrg) chargeStatus = "Charging";
-  else if (stdby) chargeStatus = "Charged";
-  else chargeStatus = "Not Charging";
+  // 🔄 Optional: set chargeStatus based on voltage (placeholder logic)
+  if (batteryVoltage > 4.1)
+    chargeStatus = "Charged";
+  else if (batteryVoltage > 3.5)
+    chargeStatus = "Charging";
+  else
+    chargeStatus = "Low";
 
   digitalWrite(MOSFET_PIN, (batteryVoltage > 3.5));
 }
